@@ -9,7 +9,6 @@
 TaskHandle_t myTaskHandle = NULL;
 QueueHandle_t queue;
 
-
 void Task(void *arg)
 {
 	// 1. เตรียมพื้นที่รับข้อมูลผ่าน queue
@@ -26,8 +25,6 @@ void Task(void *arg)
 		}
 	}
 }
-
-
 void IRAM_ATTR button_isr_handler(void *arg)
 {
 	// code จาก https://www.freertos.org/a00119.html
@@ -38,12 +35,10 @@ void IRAM_ATTR button_isr_handler(void *arg)
 	cIn = '1';
 	xQueueSendFromISR(queue, &cIn, &xHigherPriorityTaskWoken);
 }
-
-
 void app_main(void)
 {
-	 esp_rom_gpio_pad_select_gpio (PUSH_BUTTON_PIN);
-	 esp_rom_gpio_pad_select_gpio (LED_PIN);
+	esp_rom_gpio_pad_select_gpio(PUSH_BUTTON_PIN);
+	esp_rom_gpio_pad_select_gpio(LED_PIN);
 
 	gpio_set_direction(PUSH_BUTTON_PIN, GPIO_MODE_INPUT);
 	gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
@@ -65,8 +60,3 @@ void app_main(void)
 
 	xTaskCreatePinnedToCore(Task, "My_Task", 4096, NULL, 10, &myTaskHandle, 1);
 }
-
-
-
-
-
